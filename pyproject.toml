@@ -1,8 +1,11 @@
 [tool.poetry]
 name = "django-cookiebanner"
-version = "0.1.0"
+version = "0.1.1"
 description = ""
 authors = ["Andreas Nüßlein <andreas@nuessle.in>"]
+readme = "README.md"
+keywords = ["django", "cookie", "gdpr", "dsgvo"]
+
 packages = [
   {include = "cookiebanner"}
 ]
@@ -13,6 +16,20 @@ django = ">=1.11"
 [tool.poetry.dev-dependencies]
 pytest-django = "*"
 pytest-cov = "*"
+
+[tool.black]
+line-length = 88
+target-version = ['py36', 'py37', 'py38']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | migrations
+  | static-collected
+  | node_modules
+)/
+'''
 
 [build-system]
 requires = ["poetry>=0.12"]
