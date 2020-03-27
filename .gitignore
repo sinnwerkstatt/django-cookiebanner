@@ -1,0 +1,12 @@
+# Python
+*.py[cod]
+__pycache__/
+*.egg-info/
+.coverage*
+.tox/
+.mypy_cache/
+.pytest_cache/
+dist/
+
+# IntelliJ
+.idea/
