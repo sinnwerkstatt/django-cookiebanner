@@ -8,29 +8,29 @@
       <div class="modal-body">
         <form id="cookiebannerForm">
           {% for cookiegroup in cookiegroups %}
-            <div id="cookiegroup_{{ cookiegroup.id }}" style="margin-bottom: 10px;">
-              <div>
-                <label class="switch">
-                  <input type="checkbox" name="{{ cookiegroup.id }}" checked {% if not cookiegroup.optional %}disabled{% endif %}>
-                  <span class="slider"></span>
-                </label>
-                <h4 class="cookiebannerH4">{{ cookiegroup.name }}</h4>
-              </div>
-              <p>{{ cookiegroup.description }}</p>
-              <a data-toggle="collapse" href="#detailCollapse{{ cookiegroup.id }}" role="button">Cookie-Informationen anzeigen</a>
-              <div class="collapse" id="detailCollapse{{ cookiegroup.id }}">
-                <div class="card card-body">
-                  <table>
-                    {% for cookie in cookiegroup.cookies %}
-                      <tr>
-                        <td>{{ cookie.pattern }}</td>
-                        <td>{{ cookie.description }}</td>
-                      </tr>
-                    {% endfor %}
-                  </table>
-                </div>
+          <div id="cookiegroup_{{ cookiegroup.id }}" style="margin-bottom: 10px;">
+            <div>
+              <label class="switch">
+                <input type="checkbox" name="{{ cookiegroup.id }}" checked {% if not cookiegroup.optional %}disabled{% endif %}>
+                <span class="slider"></span>
+              </label>
+              <h4 class="cookiebannerH4">{{ cookiegroup.name }}</h4>
+            </div>
+            <p>{{ cookiegroup.description }}</p>
+            <a data-toggle="collapse" href="#detailCollapse{{ cookiegroup.id }}" role="button">Cookie-Informationen anzeigen</a>
+            <div class="collapse" id="detailCollapse{{ cookiegroup.id }}">
+              <div class="card card-body">
+                <table>
+                  {% for cookie in cookiegroup.cookies %}
+                  <tr>
+                    <td>{{ cookie.pattern }}</td>
+                    <td>{{ cookie.description }}</td>
+                  </tr>
+                  {% endfor %}
+                </table>
               </div>
             </div>
+          </div>
           {% endfor %}
         </form>
       </div>
@@ -50,7 +50,10 @@
     let cookiebannerCookie = keyValue ? decodeURIComponent(keyValue[2]) : null;
     if (cookiebannerCookie) return;
 
-    $('#cookiebannerModal').modal({});
+    $('#cookiebannerModal').modal({
+      backdrop: 'static',
+      keyboard: false
+    });
     $(".cookiebannerSubmit").click(function (e) {
       let enable_cookies;
       if (this.name === 'enable_all') {
