@@ -11,7 +11,7 @@
           <div id="cookiegroup_{{ cookiegroup.id }}" style="margin-bottom: 10px;">
             <div>
               <label class="switch">
-                <input type="checkbox" name="{{ cookiegroup.id }}" checked {% if not cookiegroup.optional %}disabled{% endif %}>
+                <input type="checkbox" name="{{ cookiegroup.id }}" {% if not cookiegroup.optional %}checked disabled{% endif %}>
                 <span class="slider"></span>
               </label>
               <h4 class="cookiebannerH4">{{ cookiegroup.name }}</h4>
