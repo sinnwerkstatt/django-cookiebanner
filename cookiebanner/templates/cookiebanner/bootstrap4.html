@@ -75,9 +75,8 @@
       }
 
       // set the cookie.
-      let expires = new Date();
-      expires.setFullYear(expires.getFullYear() + 1);
-      document.cookie = `cookiebanner=${encodeURIComponent(enable_cookies)};expires=${expires.toUTCString()}`;
+      let max_age = (365 * 24 * 60 * 60);
+      document.cookie = `cookiebanner=${encodeURIComponent(enable_cookies)}; path=/; max-age=${max_age}`;
       location.reload();
     })
   });
