@@ -5,7 +5,6 @@ description = ""
 authors = ["Andreas Nüßlein <andreas@nuessle.in>"]
 readme = "README.md"
 keywords = ["django", "cookie", "gdpr", "dsgvo"]
-
 packages = [
   {include = "cookiebanner"}
 ]

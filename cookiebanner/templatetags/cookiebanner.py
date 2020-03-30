@@ -30,10 +30,10 @@ class CookiebannerModalNode(template.Node):
             f"cookiebanner/{self.template_name}.html"
         )
 
-        cookie_groups = settings.COOKIEBANNER_GROUPS
+        cb_settings = settings.COOKIEBANNER
         ctx = {
-            "cookiegroups": cookie_groups,
-            "cookiegroups_json": json.dumps(cookie_groups),
+            "cb_settings": cb_settings,
+            "cookiegroups_json": json.dumps(cb_settings["groups"]),
         }
         return t.render(Context(ctx, autoescape=context.autoescape))
 

@@ -3,11 +3,12 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title" id="cookiebannerModalLabel">{% trans 'Datenschutzeinstellungen' %}</h3>
+        <h3 class="modal-title" id="cookiebannerModalLabel">{{cb_settings.title}}</h3>
+        <p>{{cb_settings.header_text}}</p>
       </div>
       <div class="modal-body">
         <form id="cookiebannerForm">
-          {% for cookiegroup in cookiegroups %}
+          {% for cookiegroup in cb_settings.groups %}
           <div id="cookiegroup_{{ cookiegroup.id }}" style="margin-bottom: 10px;">
             <div>
               <label class="switch">
@@ -35,6 +36,7 @@
         </form>
       </div>
       <div class="modal-footer">
+        <p class="text-left">{{ cb_settings.footer_text }}</p>
         <input type="submit" name="enable_all" class="cookiebannerSubmit btn btn-primary" value="{% trans 'Alle akzeptieren' %}">
         <input type="submit" name="save" class="cookiebannerSubmit btn btn-secondary" value="{% trans 'Speichern' %}">
       </div>
