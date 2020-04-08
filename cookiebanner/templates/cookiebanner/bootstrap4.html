@@ -4,7 +4,9 @@
     <div class="modal-content">
       <div class="modal-header">
         <h3 class="modal-title" id="cookiebannerModalLabel">{{cb_settings.title}}</h3>
+        {% if cb_settings.header_text %}
         <p>{{ cb_settings.header_text|safe }}</p>
+        {% endif %}
       </div>
       <div class="modal-body">
         <form id="cookiebannerForm">
@@ -36,9 +38,16 @@
         </form>
       </div>
       <div class="modal-footer">
+        {% if cb_settings.footer_text %}
         <p class="text-left">{{ cb_settings.footer_text|safe }}</p>
+        {% endif %}
         <input type="submit" name="enable_all" class="cookiebannerSubmit btn btn-primary" value="{% trans 'Alle akzeptieren' %}">
         <input type="submit" name="save" class="cookiebannerSubmit btn btn-secondary" value="{% trans 'Speichern' %}">
+        <nav class="cookie-footer-links">
+          {% for link in cb_settings.footer_links %}
+          <span class="nav-item"><a class="nav-link" href="{{ link.href }}">{{ link.title }}</a></span>
+          {% endfor %}
+        </nav>
       </div>
     </div>
   </div>
@@ -71,9 +80,9 @@
           if (checked_cookiegroups.includes(x.id)) return x;
           return !x.optional
         })
-          .map((x) => {
-            return x.id
-          });
+            .map((x) => {
+              return x.id
+            });
       }
 
       // set the cookie.
@@ -156,5 +165,32 @@
   .slider.round:before {
     border-radius: 50%;
   }
+
+  .cookie-footer-links {
+    text-align: left;
+    min-height: auto;
+    margin-bottom: auto;
+    display: inline-block;
+    float: left;
+  }
+
+  .cookie-footer-links .nav-item, .cookie-footer-links .nav-link {
+    color: #999;
+  }
+
+  .cookie-footer-links .nav-item:after {
+    content: "|";
+    padding-right: 5px;
+    padding-left: 5px;
+  }
+
+  .cookie-footer-links .nav-item:last-child:after {
+    content: none;
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+
+  .modal-open { overflow-y: auto; }
+  .modal-dialog { margin-top: 120px;}
 
 </style>
