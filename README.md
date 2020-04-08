@@ -16,8 +16,14 @@ COOKIEBANNER = {
     "header_text": "We are using cookies on this website. A few are essential, others are not.",
     "footer_text": "Please accept our cookies",
     "footer_links": [
-        { "title": "Impprint", "href": "/imprint"},
-        { "title": "Privacy", "href": "/privacy"},
+        { 
+            "title": "Imprint", 
+            "href": "/imprint" 
+        },
+        { 
+            "title": "Privacy", 
+            "href": "/privacy" 
+        },
     ],
     "groups": [
         {
