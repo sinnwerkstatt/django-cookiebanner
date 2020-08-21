@@ -87,7 +87,7 @@
 
       // set the cookie.
       let max_age = (365 * 24 * 60 * 60);
-      document.cookie = `cookiebanner=${encodeURIComponent(enable_cookies)}; path=/; max-age=${max_age}`;
+      document.cookie = `cookiebanner=${encodeURIComponent(enable_cookies)}; path=/; max-age=${max_age}; secure`;
       location.reload();
     })
   });
