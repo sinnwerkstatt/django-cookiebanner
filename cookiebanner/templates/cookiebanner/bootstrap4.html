@@ -20,7 +20,7 @@
               <h4 class="cookiebannerH4">{{ cookiegroup.name }}</h4>
             </div>
             <p>{{ cookiegroup.description }}</p>
-            <a data-toggle="collapse" href="#detailCollapse{{ cookiegroup.id }}" role="button">Cookie-Informationen anzeigen</a>
+            <a data-toggle="collapse" href="#detailCollapse{{ cookiegroup.id }}" role="button">{% trans 'Show cookie details'}</a>
             <div class="collapse" id="detailCollapse{{ cookiegroup.id }}">
               <div class="card card-body">
                 <table>
@@ -41,8 +41,8 @@
         {% if cb_settings.footer_text %}
         <p class="text-left">{{ cb_settings.footer_text|safe }}</p>
         {% endif %}
-        <input type="submit" name="enable_all" class="cookiebannerSubmit btn btn-primary" value="{% trans 'Alle akzeptieren' %}">
-        <input type="submit" name="save" class="cookiebannerSubmit btn btn-secondary" value="{% trans 'Speichern' %}">
+        <input type="submit" name="enable_all" class="cookiebannerSubmit btn btn-primary" value="{% trans 'Accept all' %}">
+        <input type="submit" name="save" class="cookiebannerSubmit btn btn-secondary" value="{% trans 'Save' %}">
         <nav class="cookie-footer-links">
           {% for link in cb_settings.footer_links %}
           <span class="nav-item"><a class="nav-link" href="{{ link.href }}">{{ link.title }}</a></span>
@@ -145,7 +145,9 @@
   input:checked:disabled + .slider {
     background-color: rgba(34, 154, 255, 0.4);
   }
-
+  input:checked:disabled + .slider:hover {
+    cursor: not-allowed;
+  }
 
   input:focus + .slider {
     box-shadow: 0 0 1px #2196F3;
@@ -196,6 +198,15 @@
 
   .modal-dialog {
     margin-top: 120px;
+  }
+
+  #cookiebannerForm table {
+		color: rgba(0,0,0,0.7);
+		font-style: italic;
+  }
+
+  #cookiebannerForm table td {
+    padding: 3px 4px;
   }
 
 </style>
