@@ -11,48 +11,50 @@
 
 * in your settings (`settings.py`) specify the different Cookie Groups:
 ```python
+from django.utils.translation import ugettext_lazy as _
+
 COOKIEBANNER = {
-    "title": "Cookie settings",
-    "header_text": "We are using cookies on this website. A few are essential, others are not.",
-    "footer_text": "Please accept our cookies",
+    "title": _("Cookie settings"),
+    "header_text": _("We are using cookies on this website. A few are essential, others are not."),
+    "footer_text": _("Please accept our cookies"),
     "footer_links": [
-        { 
-            "title": "Imprint", 
-            "href": "/imprint" 
+        {
+            "title": _("Imprint"),
+            "href": "/imprint"
         },
-        { 
-            "title": "Privacy", 
-            "href": "/privacy" 
+        {
+            "title": _("Privacy"),
+            "href": "/privacy"
         },
     ],
     "groups": [
         {
             "id": "essential",
-            "name": "Essential",
-            "description": "Essential cookies allow this page to work.",
+            "name": _("Essential"),
+            "description": _("Essential cookies allow this page to work."),
             "cookies": [
                 {
                     "pattern": "cookiebanner",
-                    "description": "Meta cookie for the cookies that are set.",
+                    "description": _("Meta cookie for the cookies that are set."),
                 },
                 {
                     "pattern": "csrftoken",
-                    "description": "This cookie prevents Cross-Site-Request-Forgery attacks.",
+                    "description": _("This cookie prevents Cross-Site-Request-Forgery attacks."),
                 },
                 {
                     "pattern": "sessionid",
-                    "description": "This cookie is necessary to allow logging in, for example.",
+                    "description": _("This cookie is necessary to allow logging in, for example."),
                 },
             ],
         },
         {
             "id": "analytics",
-            "name": "Analytics",
+            "name": _("Analytics"),
             "optional": True,
             "cookies": [
                 {
                     "pattern": "_pk_.*",
-                    "description": "Matomo cookie for website analysis.",
+                    "description": _("Matomo cookie for website analysis."),
                 },
             ],
         },

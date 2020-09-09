@@ -3,9 +3,19 @@ from urllib.parse import unquote
 
 from django import template
 from django.conf import settings
+from django.core.serializers.json import DjangoJSONEncoder
 from django.template import Context
+from django.utils.encoding import force_text
+from django.utils.functional import Promise
 
 register = template.Library()
+
+
+class LazyEncoder(DjangoJSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Promise):
+            return force_text(obj)
+        return super(LazyEncoder, self).default(obj)
 
 
 def cookiebanner_modal(parser, token):
@@ -33,7 +43,7 @@ class CookiebannerModalNode(template.Node):
         cb_settings = settings.COOKIEBANNER
         ctx = {
             "cb_settings": cb_settings,
-            "cookiegroups_json": json.dumps(cb_settings["groups"]),
+            "cookiegroups_json": json.dumps(cb_settings["groups"], cls=LazyEncoder),
         }
         return t.render(Context(ctx, autoescape=context.autoescape))
 
