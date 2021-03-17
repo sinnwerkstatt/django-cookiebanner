@@ -3,49 +3,51 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title" id="cookiebannerModalLabel">{{cb_settings.title}}</h3>
+        <h3 class="modal-title" id="cookiebannerModalLabel">{{ cb_settings.title }}</h3>
         {% if cb_settings.header_text %}
-        <p>{{ cb_settings.header_text|safe }}</p>
+          <p>{{ cb_settings.header_text|safe }}</p>
         {% endif %}
       </div>
       <div class="modal-body">
         <form id="cookiebannerForm">
           {% for cookiegroup in cb_settings.groups %}
-          <div id="cookiegroup_{{ cookiegroup.id }}" style="margin-bottom: 10px;">
-            <div>
-              <label class="switch">
-                <input type="checkbox" name="{{ cookiegroup.id }}" {% if not cookiegroup.optional %}checked disabled{% endif %}>
-                <span class="slider"></span>
-              </label>
-              <h4 class="cookiebannerH4">{{ cookiegroup.name }}</h4>
-            </div>
-            <p>{{ cookiegroup.description }}</p>
-            <a data-toggle="collapse" href="#detailCollapse{{ cookiegroup.id }}" role="button">{% trans 'Show cookie details' %}</a>
-            <div class="collapse" id="detailCollapse{{ cookiegroup.id }}">
-              <div class="card card-body">
-                <table>
-                  {% for cookie in cookiegroup.cookies %}
-                  <tr>
-                    <td>{{ cookie.pattern }}</td>
-                    <td>{{ cookie.description }}</td>
-                  </tr>
-                  {% endfor %}
-                </table>
+            <div id="cookiegroup_{{ cookiegroup.id }}" style="margin-bottom: 10px;">
+              <div>
+                <label class="switch">
+                  <input type="checkbox" name="{{ cookiegroup.id }}" {% if not cookiegroup.optional %}checked disabled{% endif %}>
+                  <span class="slider"></span>
+                </label>
+                <h4 class="cookiebannerH4">{{ cookiegroup.name }}</h4>
+              </div>
+              <p>{{ cookiegroup.description }}</p>
+              <a data-toggle="collapse" href="#detailCollapse{{ cookiegroup.id }}" role="button">{% trans 'Show cookie details' %}</a>
+              <div class="collapse" id="detailCollapse{{ cookiegroup.id }}">
+                <div class="card card-body">
+                  <table>
+                    {% for cookie in cookiegroup.cookies %}
+                      <tr>
+                        <td>{{ cookie.pattern }}</td>
+                        <td>{{ cookie.description }}</td>
+                      </tr>
+                    {% endfor %}
+                  </table>
+                </div>
               </div>
             </div>
-          </div>
           {% endfor %}
         </form>
       </div>
       <div class="modal-footer">
         {% if cb_settings.footer_text %}
-        <p class="text-left">{{ cb_settings.footer_text|safe }}</p>
+          <p class="text-left">{{ cb_settings.footer_text|safe }}</p>
         {% endif %}
-        <input type="submit" name="enable_all" class="cookiebannerSubmit btn btn-primary" value="{% trans 'Accept all' %}">
-        <input type="submit" name="save" class="cookiebannerSubmit btn btn-secondary" value="{% trans 'Save' %}">
+        <input type="submit" name="enable_all" class="cookiebannerSubmit btn btn-primary"
+               value="{% trans 'Accept all' %}">
+        <input type="submit" name="save" class="cookiebannerSubmit btn btn-secondary"
+               value="{% trans 'Save' %}">
         <nav class="cookie-footer-links">
           {% for link in cb_settings.footer_links %}
-          <span class="nav-item"><a class="nav-link" href="{{ link.href }}">{{ link.title }}</a></span>
+            <span class="nav-item"><a class="nav-link" href="{{ link.href }}">{{ link.title }}</a></span>
           {% endfor %}
         </nav>
       </div>
@@ -68,26 +70,22 @@
     $(".cookiebannerSubmit").click(function (e) {
       let enable_cookies;
       if (this.name === 'enable_all') {
-        enable_cookies = cookiegroups.map((x) => {
-          return x.id
-        });
+        enable_cookies = cookiegroups.map((x) => x.id);
       } else {
         let serialized_form = $("#cookiebannerForm").serializeArray();
-        let checked_cookiegroups = serialized_form.map((x) => {
-          return x.name
-        });
-        enable_cookies = cookiegroups.filter((x) => {
-          if (checked_cookiegroups.includes(x.id)) return x;
-          return !x.optional
-        })
-            .map((x) => {
-              return x.id
-            });
+        let checked_cookiegroups = serialized_form.map((x) => x.name);
+        enable_cookies = cookiegroups
+                .filter((x) => {
+                  return checked_cookiegroups.includes(x.id) ? x : !x.optional;
+                })
+                .map((x) => x.id);
       }
 
       // set the cookie.
       let max_age = (365 * 24 * 60 * 60);
-      document.cookie = `cookiebanner=${encodeURIComponent(enable_cookies)}; path=/; max-age=${max_age}; secure`;
+
+      let secure = window.location.hostname === 'localhost' ? "" : "secure";
+      document.cookie = `cookiebanner=${encodeURIComponent(enable_cookies)}; path=/; max-age=${max_age}; ${secure}`;
       location.reload();
     })
   });
@@ -145,6 +143,7 @@
   input:checked:disabled + .slider {
     background-color: rgba(34, 154, 255, 0.4);
   }
+
   input:checked:disabled + .slider:hover {
     cursor: not-allowed;
   }
@@ -188,8 +187,8 @@
 
   .cookie-footer-links .nav-item:last-child:after {
     content: none;
-    padding-right: 0px;
-    padding-left: 0px;
+    padding-right: 0;
+    padding-left: 0;
   }
 
   .modal-open {
@@ -201,8 +200,8 @@
   }
 
   #cookiebannerForm table {
-		color: rgba(0,0,0,0.7);
-		font-style: italic;
+    color: rgba(0, 0, 0, 0.7);
+    font-style: italic;
   }
 
   #cookiebannerForm table td {
