@@ -59,26 +59,24 @@
   const cookiegroups = JSON.parse("{{ cookiegroups_json|escapejs }}");
 
   document.addEventListener("DOMContentLoaded", function () {
-    let keyValue = document.cookie.match('(^|;) ?cookiebanner=([^;]*)(;|$)');
-    let cookiebannerCookie = keyValue ? decodeURIComponent(keyValue[2]) : null;
+    let keyValue = document.cookie.split(/;\s*/g).find(c => c.startsWith("cookiebanner"));
+    let cookiebannerCookie = keyValue ? decodeURIComponent(keyValue.slice(13)) : null;
     if (cookiebannerCookie) return;
 
-    $('#cookiebannerModal').modal({
+    document.querySelector('#cookiebannerModal').modal({
       backdrop: 'static',
       keyboard: false
     });
-    $(".cookiebannerSubmit").click(function (e) {
+    Array.from(document.querySelectorAll(".cookiebannerSubmit")).forEach(e => e.addEventListener("click", function () {
       let enable_cookies;
       if (this.name === 'enable_all') {
         enable_cookies = cookiegroups.map((x) => x.id);
       } else {
-        let serialized_form = $("#cookiebannerForm").serializeArray();
-        let checked_cookiegroups = serialized_form.map((x) => x.name);
+        let checked_cookiegroups = Array.from(document.querySelector("#cookiebannerForm")).filter(y => y.checked);
+
         enable_cookies = cookiegroups
-                .filter((x) => {
-                  return checked_cookiegroups.includes(x.id) ? x : !x.optional;
-                })
-                .map((x) => x.id);
+          .filter((x) => checked_cookiegroups.some(y => y.name == x.id) ? x : !x.optional)
+          .map((x) => x.id);
       }
 
       // set the cookie.
@@ -87,7 +85,7 @@
       let secure = window.location.hostname === 'localhost' ? "" : "secure";
       document.cookie = `cookiebanner=${encodeURIComponent(enable_cookies)}; path=/; max-age=${max_age}; ${secure}`;
       location.reload();
-    })
+    }));
   });
 </script>
 
