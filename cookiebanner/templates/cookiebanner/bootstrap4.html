@@ -59,23 +59,24 @@
   const cookiegroups = JSON.parse("{{ cookiegroups_json|escapejs }}");
 
   document.addEventListener("DOMContentLoaded", function () {
-    let keyValue = document.cookie.split(/;\s*/g).find(c => c.startsWith("cookiebanner"));
+    let keyValue = document.cookie.split(/;\s*/g).find((x) => x.startsWith("cookiebanner"));
     let cookiebannerCookie = keyValue ? decodeURIComponent(keyValue.slice(13)) : null;
     if (cookiebannerCookie) return;
 
-    document.querySelector('#cookiebannerModal').modal({
+    document.querySelector('#cookiebannerModal').modal?.({
       backdrop: 'static',
       keyboard: false
     });
-    Array.from(document.querySelectorAll(".cookiebannerSubmit")).forEach(e => e.addEventListener("click", function () {
+    Array.from(document.querySelectorAll(".cookiebannerSubmit")).forEach((btn) => btn.addEventListener("click", function () {
       let enable_cookies;
       if (this.name === 'enable_all') {
         enable_cookies = cookiegroups.map((x) => x.id);
       } else {
-        let checked_cookiegroups = Array.from(document.querySelector("#cookiebannerForm")).filter(y => y.checked);
+        let checked_cookiegroups = Array.from(document.querySelector("#cookiebannerForm"))
+          .filter((x) => x.checked).map((x) => x.name);
 
         enable_cookies = cookiegroups
-          .filter((x) => checked_cookiegroups.some(y => y.name == x.id) ? x : !x.optional)
+          .filter((x) => checked_cookiegroups.includes(x.id) ? x : !x.optional)
           .map((x) => x.id);
       }
 
