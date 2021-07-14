@@ -63,7 +63,7 @@
     let cookiebannerCookie = keyValue ? decodeURIComponent(keyValue.slice(13)) : null;
     if (cookiebannerCookie) return;
 
-    document.querySelector('#cookiebannerModal').modal?.({
+    $?.('#cookiebannerModal').modal?.({
       backdrop: 'static',
       keyboard: false
     });
