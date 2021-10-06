@@ -1,0 +1,254 @@
+{% load i18n %}
+
+<div id="cookiebannerModal" class="hidden" tabindex="-1" role="dialog" aria-labelledby="cookiebannerModalLabel" aria-hidden="true">
+  <div id="cookiebannerModalDialog">
+    <div id="cookiebannerModalHeader">
+      <h3 id="cookiebannerModalTitle">{{ cb_settings.title }}</h3>
+      {% if cb_settings.header_text %}
+        <p>{{ cb_settings.header_text|safe }}</p>
+      {% endif %}
+    </div>
+    <div id="cookiebannerModalBody">
+      <form id="cookiebannerForm">
+        {% for cookiegroup in cb_settings.groups %}
+          <div id="cookiegroup_{{ cookiegroup.id }}" style="margin-bottom: 10px;">
+            <div>
+              <label class="switch">
+                <input type="checkbox" name="{{ cookiegroup.id }}" {% if not cookiegroup.optional %}checked disabled{% endif %}>
+                <span class="slider"></span>
+              </label>
+              <h4 class="cookiebannerH4">{{ cookiegroup.name }}</h4>
+            </div>
+            <p>{{ cookiegroup.description }}</p>
+            <a data-toggle="cookiebannerCollapse" href="#detailCollapse{{ cookiegroup.id }}" role="button">{% trans 'Show cookie details' %}</a>
+            <div class="cookiebannerCollapse" id="detailCollapse{{ cookiegroup.id }}">
+              <div class="card card-body">
+                <table class="cookiebannerModalTable">
+                  {% for cookie in cookiegroup.cookies %}
+                    <tr>
+                      <td>{{ cookie.pattern }}</td>
+                      <td>{{ cookie.description }}</td>
+                    </tr>
+                  {% endfor %}
+                </table>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </form>
+    </div>
+    <div id="cookiebannerModalFooter">
+      {% if cb_settings.footer_text %}
+        <p class="text-left">{{ cb_settings.footer_text|safe }}</p>
+      {% endif %}
+      <input type="submit" name="enable_all" class="cookiebannerSubmit btn"
+             value="{% trans 'Accept all' %}">
+      <input type="submit" name="save" class="cookiebannerSubmit btn"
+             value="{% trans 'Save' %}">
+      <nav id="cookiebannerModalFooterLinks">
+        {% for link in cb_settings.footer_links %}
+          <span class="nav-item"><a class="nav-link" href="{{ link.href }}">{{ link.title }}</a></span>
+        {% endfor %}
+      </nav>
+    </div>
+  </div>
+</div>
+
+<script>
+  const cookiegroups = JSON.parse("{{ cookiegroups_json|escapejs }}");
+
+  document.addEventListener("DOMContentLoaded", function () {
+    let keyValue = document.cookie.match('(^|;) ?cookiebanner=([^;]*)(;|$)');
+    let cookiebannerCookie = keyValue ? decodeURIComponent(keyValue[2]) : null;
+    if (cookiebannerCookie) return;
+
+    document.getElementById("cookiebannerModal").classList.remove('hidden');
+
+    document.querySelectorAll("a[data-toggle='cookiebannerCollapse']").forEach((a) => {
+      a.addEventListener("click", () =>
+        document.querySelector(a.hash).classList.toggle('show')
+      )
+    })
+
+    document.querySelectorAll("input.cookiebannerSubmit").forEach((inp) => {
+      inp.addEventListener("click", () => {
+        let enable_cookies;
+        if (inp.name === 'enable_all') {
+          enable_cookies = cookiegroups.map((x) => x.id);
+        } else {
+          let checked_cookiegroups = Array.from(document.querySelector("#cookiebannerForm"))
+            .filter((x) => x.checked).map((x) => x.name);
+          enable_cookies = cookiegroups
+            .filter((x) => {
+              return checked_cookiegroups.includes(x.id) ? x : !x.optional;
+            })
+            .map((x) => x.id);
+        }
+        const max_age = (365 * 24 * 60 * 60);
+        const secure = window.location.hostname === 'localhost' ? "" : "secure";
+        document.cookie = `cookiebanner=${encodeURIComponent(enable_cookies)}; path=/; max-age=${max_age}; ${secure}`;
+        location.reload();
+      })
+    })
+  });
+</script>
+
+<style>
+  p {
+    margin: 0 0 0.2em;
+  }
+
+  #cookiebannerModal {
+    --color-highlight: #73C229FF;
+    --color-button-fg: white;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: hsla(0, 0%, 0%, .5);
+    font-family: Roboto, sans-serif;
+  }
+
+  #cookiebannerModal.hidden {
+    display: none;
+  }
+
+  #cookiebannerModal a {
+    color: var(--color-highlight);
+  }
+
+  #cookiebannerModalDialog {
+    background: white;
+    box-shadow: 0 0 20px 8px #000;
+  }
+
+  #cookiebannerModalHeader {
+    padding: 1rem;
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  #cookiebannerModalTitle {
+    margin: 0 0 0.4rem;
+  }
+
+  #cookiebannerModalBody {
+    padding: 1rem;
+  }
+
+  #cookiebannerModalFooter {
+    padding: 1rem;
+    border-top: 1px solid #e5e5e5;
+    text-align: right;
+  }
+
+  #cookiebannerModalFooter .text-left {
+    text-align: left;
+  }
+
+  .cookiebannerSubmit.btn {
+    font-size: 1.2rem;
+    margin: 0.2em;
+    padding: 0.3em;
+    background-color: var(--color-highlight);
+    color: var(--color-button-fg);
+    border: 0;
+  }
+
+  #cookiebannerModalFooterLinks {
+    text-align: left;
+    min-height: auto;
+    margin-bottom: auto;
+    display: inline-block;
+    float: left;
+    padding: 1rem 0;
+  }
+
+  .cookiebannerH4 {
+    display: inline-block;
+    font-size: 1.125rem;
+    font-weight: 500;
+    margin: 0.56em 0;
+  }
+
+  .cookiebannerCollapse {
+    display: none;
+  }
+
+  .cookiebannerCollapse.show {
+    display: block;
+  }
+
+  .cookiebannerModalTable {
+    font-size: 0.9rem;
+    font-style: italic;
+  }
+
+  .cookiebannerModalTable td {
+    padding: 0.1em 0.2em 0.1em;
+  }
+
+  /* The switch - the box around the slider */
+  .switch {
+    font-size: 1rem;
+    vertical-align: middle;
+    position: relative;
+    display: inline-block;
+    width: 2.5em;
+    height: 1.375em;
+    margin: 0 0.3125em 0.3125em 0;
+  }
+
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: transform 400ms, background-color 400ms;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 1.125em;
+    width: 1.125em;
+    left: 0.125em;
+    bottom: 0.125em;
+    background-color: white;
+    transition: transform 400ms;
+  }
+
+  input:checked + .slider {
+    background-color: var(--color-highlight);
+  }
+
+  input:checked:disabled + .slider {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  input:focus + .slider {
+    box-shadow: 0 0 1px var(--color-highlight);
+  }
+
+  input:checked + .slider:before {
+    transform: translateX(1.125em);
+  }
+
+</style>

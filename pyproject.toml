@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-cookiebanner"
-version = "0.2.4"
+version = "0.2.5"
 description = ""
 authors = ["Andreas Nüßlein <andreas@nuessle.in>", "Ralph Delfs <ralph.delfs@sinnwerkstatt.com>"]
 readme = "README.md"
@@ -10,6 +10,7 @@ include = ["CHANGELOG.md"]
 packages = [
   {include = "cookiebanner"}
 ]
+
 [tool.poetry.dependencies]
 python = "^3.6"
 django = ">=1.11"

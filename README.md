@@ -18,14 +18,8 @@ COOKIEBANNER = {
     "header_text": _("We are using cookies on this website. A few are essential, others are not."),
     "footer_text": _("Please accept our cookies"),
     "footer_links": [
-        {
-            "title": _("Imprint"),
-            "href": "/imprint"
-        },
-        {
-            "title": _("Privacy"),
-            "href": "/privacy"
-        },
+        {"title": _("Imprint"), "href": "/imprint"},
+        {"title": _("Privacy"), "href": "/privacy"},
     ],
     "groups": [
         {
@@ -67,7 +61,7 @@ COOKIEBANNER = {
 {% load cookiebanner %}
 ...
 <body>
-{% cookiebanner_modal %}
+{% cookiebanner_modal 'vanilla' %}
 ...
 
 
@@ -79,3 +73,8 @@ COOKIEBANNER = {
 ```
 
 
+### Custom Template
+
+You can create a custom template and use that instead of the default one. 
+* Create a folder `cookiebanner/` and a file in one of your `templates/`-folders, e.g.: `templates/cookiebanner/mytemplate.html`
+* Use `{% cookiebanner_modal 'mytemplate' %}`

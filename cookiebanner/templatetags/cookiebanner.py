@@ -23,7 +23,7 @@ def cookiebanner_modal(parser, token):
         tag_name, template_name = token.split_contents()
     except ValueError:
         tag_name = token
-        template_name = "'bootstrap4'"
+        template_name = "'vanilla'"
     if not (template_name[0] == template_name[-1] and template_name[0] in ('"', "'")):
         raise template.TemplateSyntaxError(
             "%r tag's argument should be in quotes" % tag_name
