@@ -1,3 +1,9 @@
+0.2.6
+-----
+
+- add Django 4 support
+- raise minimal Python version to 3.7
+
 0.2.4
 -----
 
