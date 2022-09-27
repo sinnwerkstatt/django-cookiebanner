@@ -12,16 +12,17 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.6"
-django = ">=1.11"
+python = ">=3.7"
+django = ">=3.2"
 
 [tool.poetry.dev-dependencies]
 pytest-django = "*"
 pytest-cov = "*"
+black = "*"
 
 [tool.black]
 line-length = 88
-target-version = ['py36', 'py37', 'py38']
+target-version = ['py37', 'py38', 'py39', 'py310']
 include = '\.pyi?$'
 exclude = '''
 /(

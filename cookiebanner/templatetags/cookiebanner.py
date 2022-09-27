@@ -5,7 +5,7 @@ from django import template
 from django.conf import settings
 from django.core.serializers.json import DjangoJSONEncoder
 from django.template import Context
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.utils.functional import Promise
 
 register = template.Library()
@@ -14,7 +14,7 @@ register = template.Library()
 class LazyEncoder(DjangoJSONEncoder):
     def default(self, obj):
         if isinstance(obj, Promise):
-            return force_text(obj)
+            return force_str(obj)
         return super(LazyEncoder, self).default(obj)
 
 

@@ -11,7 +11,7 @@
 
 * in your settings (`settings.py`) specify the different Cookie Groups:
 ```python
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 COOKIEBANNER = {
     "title": _("Cookie settings"),
