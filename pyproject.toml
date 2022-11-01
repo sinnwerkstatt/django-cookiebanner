@@ -1,9 +1,11 @@
 [tool.poetry]
 name = "django-cookiebanner"
-version = "0.2.6"
+version = "0.2.7"
 description = ""
 authors = ["Andreas Nüßlein <andreas@nuessle.in>", "Ralph Delfs <ralph.delfs@sinnwerkstatt.com>"]
 readme = "README.md"
+license = "GPL-3.0+"
+repository = "https://github.com/sinnwerkstatt/django-cookiebanner"
 keywords = ["django", "cookie", "gdpr", "dsgvo"]
 include = ["CHANGELOG.md"]
 

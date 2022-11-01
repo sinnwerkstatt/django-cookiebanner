@@ -1,3 +1,8 @@
+0.2.7
+-----
+
+- add license information to pyproject.toml
+
 0.2.6
 -----
 
