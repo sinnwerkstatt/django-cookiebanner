@@ -10,7 +10,9 @@ TEMPLATES = [
         "DIRS": ["templates", "tests/templates"],
         "APP_DIRS": True,
         "OPTIONS": {
-            # ... some options here ...
+            "context_processors": [
+                "django.template.context_processors.request",
+            ]
         },
     },
 ]

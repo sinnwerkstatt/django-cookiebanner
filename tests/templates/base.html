@@ -3,5 +3,17 @@
 {% load cookiebanner %}
 {% cookiebanner_modal 'vanilla' %}
 <h1>Relevant Heading</h1>
+
+<button onclick="document.querySelector('#cookiebannerModal').classList.remove('hidden')">change cookie preferences</button>
+
+{% cookie_accepted 'essential' as cookie_essential %}
+{% if cookie_essential %}
+  <div>essential is enabled</div>
+{% endif %}
+
+{% cookie_accepted 'analytics' as cookie_analytics %}
+{% if cookie_analytics %}
+  <div>analytics is enabled</div>
+{% endif %}
 </body>
 </html>
