@@ -57,12 +57,24 @@
 <script>
   const cookiegroups = JSON.parse("{{ cookiegroups_json|escapejs }}");
 
-  document.addEventListener("DOMContentLoaded", function () {
-    let keyValue = document.cookie.match('(^|;) ?cookiebanner=([^;]*)(;|$)');
-    let cookiebannerCookie = keyValue ? decodeURIComponent(keyValue[2]) : null;
-    if (cookiebannerCookie) return;
+  const _keyValue = document.cookie.match('(^|;) ?cookiebanner=([^;]*)(;|$)');
+  const cookiebannerCookie = _keyValue ? decodeURIComponent(_keyValue[2]) : null;
+  const cookiebannerModal = document.getElementById("cookiebannerModal");
 
-    document.getElementById("cookiebannerModal").classList.remove('hidden');
+  document.addEventListener("DOMContentLoaded", function () {
+    if (!cookiebannerCookie) cookiebannerModal.classList.remove('hidden');
+  });
+
+  new IntersectionObserver(([e]) => {
+    if (cookiebannerCookie) {
+      try {
+        cookiebannerCookie.split(',').forEach((sec) =>
+          document.querySelector(`input[name="${sec}"]`).checked = true
+        )
+      } catch {
+        console.warn("having trouble parsing the cookiebannerCookie or settings the checkboxes")
+      }
+    }
 
     document.querySelectorAll("a[data-toggle='cookiebannerCollapse']").forEach((a) => {
       a.addEventListener("click", () =>
@@ -90,7 +102,7 @@
         location.reload();
       })
     })
-  });
+  }).observe(cookiebannerModal);
 </script>
 
 <style>
