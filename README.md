@@ -64,6 +64,7 @@ COOKIEBANNER = {
 {% cookiebanner_modal 'vanilla' %}
 ...
 
+<button onclick="document.querySelector('#cookiebannerModal').classList.remove('hidden')">change cookie preferences</button>
 
 {% cookie_accepted 'analytics' as cookie_analytics %}
 {% if cookie_analytics %}
