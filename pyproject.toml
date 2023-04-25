@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-cookiebanner"
-version = "0.2.7"
+version = "0.2.8"
 description = ""
 authors = ["Andreas Nüßlein <andreas@nuessle.in>", "Ralph Delfs <ralph.delfs@sinnwerkstatt.com>"]
 readme = "README.md"
