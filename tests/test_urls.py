@@ -1,7 +1,7 @@
 from django.urls import path
-from views import base_view
+from django.views.generic import TemplateView
 
 
 urlpatterns = [
-    path('', base_view, name='base'),
+    path('', TemplateView.as_view, template_name='base'),
 ]
