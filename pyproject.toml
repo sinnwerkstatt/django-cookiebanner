@@ -2,7 +2,11 @@
 name = "django-cookiebanner"
 version = "0.2.8"
 description = ""
-authors = ["Andreas Nüßlein <andreas@nuessle.in>", "Ralph Delfs <ralph.delfs@sinnwerkstatt.com>"]
+authors = [
+    "Andreas Nüßlein <andreas@sinnwerkstatt.com>",
+    "Ralph Delfs <ralph.delfs@sinnwerkstatt.com>",
+    "Christoph Zamaitat <christoph.zamaitat@sinnwerkstatt.com>",
+]
 readme = "README.md"
 license = "GPL-3.0+"
 repository = "https://github.com/sinnwerkstatt/django-cookiebanner"
@@ -10,12 +14,12 @@ keywords = ["django", "cookie", "gdpr", "dsgvo"]
 include = ["CHANGELOG.md"]
 
 packages = [
-  {include = "cookiebanner"}
+    { include = "cookiebanner" }
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.7"
-django = ">=3.2"
+python = ">=3.8"
+django = "~4.2"
 
 [tool.poetry.dev-dependencies]
 pytest-django = "*"
@@ -24,7 +28,7 @@ black = "*"
 
 [tool.black]
 line-length = 88
-target-version = ['py37', 'py38', 'py39', 'py310', 'py311']
+target-version = ['py38', 'py39', 'py310', 'py311', 'py312']
 include = '\.pyi?$'
 exclude = '''
 /(
