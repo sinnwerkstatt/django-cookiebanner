@@ -15,7 +15,7 @@ class LazyEncoder(DjangoJSONEncoder):
     def default(self, obj):
         if isinstance(obj, Promise):
             return force_str(obj)
-        return super(LazyEncoder, self).default(obj)
+        return super().default(obj)
 
 
 def cookiebanner_modal(parser, token):
@@ -26,7 +26,7 @@ def cookiebanner_modal(parser, token):
         template_name = "'vanilla'"
     if not (template_name[0] == template_name[-1] and template_name[0] in ('"', "'")):
         raise template.TemplateSyntaxError(
-            "%r tag's argument should be in quotes" % tag_name
+            f"{tag_name!r} tag's argument should be in quotes"
         )
     return CookiebannerModalNode(template_name[1:-1])
 

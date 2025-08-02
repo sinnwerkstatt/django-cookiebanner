@@ -1,4 +1,4 @@
-SECRET_KEY = "test"
+SECRET_KEY = "test"  # noqa: S105
 
 DEBUG = True
 
